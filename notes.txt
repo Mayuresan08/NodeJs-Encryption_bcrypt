@@ -1,0 +1,43 @@
+Encrypting sensitive information using a package called Bcrypt
+
+What is password hashing?
+Hashing is a one-way ticket to data encryption. Hashing performs a one-way transformation on a password, turning the password into another String, called the hashed password. Hashing is called one way because it's practically impossible to get the original text from a hash.
+
+Install via NPM -- npm install bcrypt
+
+Import
+const bcrypt = require('bcrypt');
+
+Methods available(sync and async)
+Bcrypt supports both sync and async methods. The asynchronous approach is recommended because hashing is CPU intensive, and the synchronous version will block the event loop and prevent your app from handling other requests until it finishes.
+
+Generating Salt
+
+Salt
+--A salt is a random string that makes the hash unpredictable
+--A salt is added to the hashing process to force their uniqueness, increase their complexity without increasing user requirements, and to mitigate password attacks like hash tables
+
+To generate a hash
+
+Syntax= bcrypt.genSalt()
+
+It takes a parameter (number) which denotes salt rounds
+Default --> 10 rounds
+
+Hashing Password 
+//hashing the password with generated salt
+    req.body.password= await bcrypt.hash(req.body.password,salt)
+
+
+Comparing the hashed password and normal plain password to check if it matches
+
+//check  password using bcrypt.compare()
+    const isValid =await bcrypt.compare(req.body.password,user.password)
+    console.log(isValid)
+//will return true if matches / false unmatched
+
+
+
+
+
+
