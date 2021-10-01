@@ -9,8 +9,7 @@ const userRoutes=require("./routes/users.routes")
 //calling the mongodbclient from mongo.js
 const mongo=require("./mongo");
 
-//importing JWT module
-const jwt=require("jsonwebtoken");
+
 
 
 //db should be connected before server is started, cannot directly connect
@@ -26,29 +25,6 @@ app.use(express.json())
 //calling middleware on mountpath :/users
 app.use("/users",userRoutes)
 
-//validating the token for every request using jwt.verify()
-app.use((req,res,next)=>{
-    //retreiving the token from header
-    const token=req.headers["auth-token"]
-    console.log(token)
-    //checking token-present
-    if(!token)  return res.staus(401).send("Please log in again")
-    //validating token
-    try{
-    req.user=jwt.verify(token,"Guv!@123");
-    
-    console.log(req.user)
-    next()
-    }
-    catch(err)
-    {
-        res.status(401).send(err)
-    }
-    
-})
-
-//calling middleware on mountpath :/posts 
-app.use("/posts", postRoutes)
 
 
 //starting the server
